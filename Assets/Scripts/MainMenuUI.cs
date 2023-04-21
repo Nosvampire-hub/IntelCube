@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenuUI : MonoBehaviour
 {
@@ -28,6 +29,11 @@ public class MainMenuUI : MonoBehaviour
     {
 		GameObject SettingsUI = Instantiate(SettingUI, new Vector3(0, 0, 0), Quaternion.identity);
 		SettingsUI.name = "Settings";
+	}
+
+    public void EnterMultiPlayer()
+    {
+		SceneManager.LoadScene("MultiPlayer", LoadSceneMode.Single);
 	}
 
 

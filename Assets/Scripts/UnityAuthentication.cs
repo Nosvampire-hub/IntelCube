@@ -80,4 +80,6 @@ public class UnityAuthentication : MonoBehaviour
 			Debug.LogException(ex);
 		}
 	}
+
+
 }

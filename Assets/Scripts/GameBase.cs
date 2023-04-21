@@ -23,8 +23,8 @@ public class GameBase : MonoBehaviour
     public bool enemySpawned = false;
     private GameObject evilCubes;
     private GameObject[,,] groundCubes;
-    private float zOffset = -5;
-    private float yOffset = 1;
+    public float zOffset = -5;
+    public float yOffset = 1;
     private GameObject adBanner;
     private GameObject player;
 
@@ -230,7 +230,7 @@ public class GameBase : MonoBehaviour
 
     public void ResetLevel()
     {
-        SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+        SceneManager.LoadScene("SinglePlayer", LoadSceneMode.Single);
     }
 
 }

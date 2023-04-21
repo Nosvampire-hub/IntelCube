@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using Unity.Netcode;
 
 /*
  * This script is designed to control the player character in a 3D game. The script is responsible for handling the movement of the character, as well as managing the player's input and score.
@@ -23,7 +24,7 @@ Finally, the method applies the movement vector to the player character's positi
  */
 public class PlayerController : MonoBehaviour
 {
-    Animation m_Anim;
+    Animator m_Anim;
     Rigidbody m_Rigidbody;
     public GameObject PauseMenuUI;
     public GameObject JoyStick;
@@ -51,6 +52,7 @@ public class PlayerController : MonoBehaviour
 	private float endTouchTime;
     private bool touched;
     public float tapVariance;
+    public int cubesSelected;
 
 
 	// Start is called before the first frame update
@@ -58,14 +60,15 @@ public class PlayerController : MonoBehaviour
     {
         //Fetch the Rigidbody from the GameObject with this script attached
         m_Rigidbody = GetComponent<Rigidbody>();
-        m_Anim = GetComponentInChildren<Animation>();
+        m_Anim = GetComponentInChildren<Animator>();
 
         GameControl = GameObject.Find("Main Camera");
 
-        m_Anim.Play("Idle");
+        m_Anim.Play("Base Layer.Idle");
 
         plAlive = false;
     }
+
 
     private void OnMove(InputValue value)
     {
@@ -275,7 +278,7 @@ public class PlayerController : MonoBehaviour
 					FindObjectOfType<AudioManager>().Play("Fall");
 					KillUnKill();
 					m_Rigidbody.isKinematic = false;
-					m_Anim.Play("Falling");
+					m_Anim.Play("Base Layer.Falling");
 					StartCoroutine(SendScore());
 
 				}
@@ -285,13 +288,12 @@ public class PlayerController : MonoBehaviour
                 {
                     if (m_Input != new Vector3(0f, 0f, 0f))
                     {
-                        m_Anim.Play("Run");
-                        m_Anim["Run"].speed = 1.0f;
+                        m_Anim.Play("Base Layer.Run");
 
                     }
                     else
                     {
-                        m_Anim.Play("Idle");
+                        m_Anim.Play("Base Layer.Idle");
                     }
                 }
             }
@@ -361,7 +363,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             plAlive = true;
-            FindObjectOfType<AudioManager>().Play("BackgroundMusic1");
+            //FindObjectOfType<AudioManager>().Play("BackgroundMusic1");
 
 		}
 	}
@@ -420,57 +422,68 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    IEnumerator CubeSelection()
-    {
-        crRunning = true;
+	IEnumerator CubeSelection()
+	{
+		crRunning = true;
+		bool spawnDetect = false;
 
-        m_Anim.Play("Action");
-        m_Anim["Action"].speed = 2.0f;
+		m_Anim.Play("Base Layer.Action");
 
-        bool spawnDetect = false;
 
-        Ray ray = new Ray(transform.position, -transform.up);
-        RaycastHit hitData;
-        if (Physics.Raycast(ray, out hitData))
-        {
-            curFloor = hitData.collider.gameObject.name;
-            var floorTypedetail = curFloor.Split(",");
-            floorType = floorTypedetail[0];
-
-            if (floorTypedetail[1] == "spawn")
-            {
-                spawnDetect = true;
-            }
-
-        }
-        else
-        {
-            floorType = "";
-        }
-        
+		Ray ray = new Ray(transform.position, -transform.up);
+		RaycastHit hitData;
+		if (Physics.Raycast(ray, out hitData))
+		{
+			curFloor = hitData.collider.gameObject.name;
+			var floorTypedetail = curFloor.Split(",");
+			floorType = floorTypedetail[0];
+			if (floorTypedetail[1] == "Spawn")
+			{
+				spawnDetect = true;
+			}
+		}
+		else
+		{
+			floorType = "";
+		}
         if (!spawnDetect)
         {
 
-            if (floorType == "Ground")
+            if (selectedCube == "")
             {
-                GameObject selectCube = GameObject.Find(curFloor);
-                if (!selectCube.GetComponent<GroundControl>().activated)
                 {
-                    selectCube.GetComponent<GroundControl>().BlockSelect();
+                    if (floorType == "Ground")
+                    {
+                        GameObject selectCube = GameObject.Find(curFloor);
+
+                        selectCube.GetComponent<GroundControl>().BlockSelect();
+
+                        selectedCube = curFloor;
+
+                        yield return new WaitForSeconds(0.5f);
+
+                    }
+                    else
+                    {
+                        curFloor = "";
+                    }
                 }
-
-                selectedCube = curFloor;
-
-                yield return new WaitForSeconds(0.5f);
-
             }
             else
             {
-                curFloor = "";
+                GameObject selectCube = GameObject.Find(selectedCube);
+
+                selectCube.GetComponent<GroundControl>().BlockDeSelect();
+
+                selectedCube = "";
+
+
+                yield return new WaitForSeconds(0.2f);
+
             }
 
         }
-        crRunning = false;
-    }
+		crRunning = false;
+	}
 
 }

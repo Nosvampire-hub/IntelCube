@@ -77,8 +77,8 @@ MonoBehaviour:
   selectedMaterial: {fileID: 2100000, guid: 500345a633744864c953f937471ef9e3, type: 2}
   normalMaterial: {fileID: 2100000, guid: 2ce1db2641e4f2d4cb31a26e0e85a2b3, type: 2}
   activated: 0
-  fuseTimer: 1.6
-  countDownText: {fileID: 7248347304056401637, guid: 55e4f08d7c2a6ba40914b77acb52ec56, type: 3}
+  fuseTimer: 110
+  countDownText: {fileID: 7248347304056401637, guid: 359aabb56b461dd438d24c188d5b3820, type: 3}
 --- !u!65 &4175808071959115253
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -141,7 +141,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9163737926946942512}
   serializedVersion: 8
-  lengthInSec: 1
+  lengthInSec: 0.5
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -269,7 +269,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 20
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -764,7 +764,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 10
+    type: 5
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -3719,7 +3719,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 4
     type: 1
     collisionMode: 0
@@ -4034,13 +4034,13 @@ ParticleSystem:
         m_RotationOrder: 4
     maxLights: 20
   TrailModule:
-    enabled: 0
+    enabled: 1
     mode: 0
     ratio: 1
     lifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.25
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -4107,7 +4107,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 0, g: 1, b: 0.24647617, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4225,7 +4225,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 0, g: 1, b: 0.04445076, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4877,6 +4877,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+  - {fileID: 2100000, guid: 500345a633744864c953f937471ef9e3, type: 2}
   - {fileID: 2100000, guid: 500345a633744864c953f937471ef9e3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
